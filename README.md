@@ -1,96 +1,114 @@
 
 ---
 
-# 🌌 QUANTUM ANALİZ — High-Frequency Equity Intelligence Terminal
+# 🌌 QUANTUM ANALİZ — Enterprise Financial Intelligence & Ecosystem
 
 ---
 
-## 🏛️ SYSTEM ARCHITECTURE & DATA PIPELINE
+## 🏗️ ENTERPRISE SYSTEM ARCHITECTURE
 
-Quantum Analiz is built on a decoupled architecture optimized for low-latency data processing and high-availability inference.
+Platformun mimarisi, verinin Bursa'dan (yerel kaynaklar) başlayıp AWS global sunucularına uzanan yolculuğunu ve kullanıcıya ulaşan son katmanı kapsar:
 
 ```mermaid
 graph TD
-    A[📡 Real-Time Data Ingestion] --> B[⚙️ Processing Engine]
-    B --> C[(🗄️ PostegroSQL Data Warehouse)]
-    B --> D[🧠 Quant Analytical Layer]
-    C --> E[⚡ FastAPI Backend]
-    D --> E
-    E --> F[🛡️ Apple Auth Security]
-    F --> G[💻 Terminal Interface / UI]
+    subgraph "🌐 Client Layer"
+        WEB[💻 Terminal Web App]
+        MOB[📱 React Native Mobile]
+    end
+
+    subgraph "🔐 Security & Identity"
+        APPLE[🍎 Apple Auth]
+        GOOGLE[🔷 Google Auth]
+    end
+
+    subgraph "☁️ AWS Cloud Core (Production)"
+        ELB[⚖️ Elastic Load Balancer]
+        API[⚡ FastAPI / EC2 Cluster]
+        REDIS[🚀 Redis Cache]
+        RDS[(🐘 PostgreSQL / RDS)]
+        
+        ELB --> API
+        API --> REDIS
+        API --> RDS
+    end
+
+    subgraph "📊 Data Ingestion Pipeline"
+        SCR[🕵️ Custom Scrapers]
+        FEED[🔌 Live Market APIs]
+        SCR --> RDS
+        FEED --> RDS
+    end
+
+    WEB & MOB -->|OAuth 2.0| APPLE & GOOGLE
+    APPLE & GOOGLE -->|Authenticated| ELB
     
-    style D fill:#f9f,stroke:#333,stroke-width:2px
-    style F fill:#bbf,stroke:#333,stroke-width:2px
-    style G fill:#dfd,stroke:#333,stroke-width:2px
+    style API fill:#009688,color:#fff
+    style RDS fill:#336791,color:#fff
+    style MOB fill:#61DAFB,color:#000
 
 ```
 
 ---
 
-## 🚀 CORE CAPABILITIES
+## 🚀 TECHNOLOGICAL DEEP DIVE
 
-### 📈 MULTI-DIMENSIONAL EQUITY ANALYSIS
+### 🐘 1. ANALYTICAL DATABASE LAYER (POSTGRESQL)
 
-The terminal processes thousands of data points to deliver:
+Proje, finansal verilerin karmaşıklığını yönetmek için **Amazon RDS (PostgreSQL)** üzerine kurgulanmıştır.
 
-* **Technical Indicator Suites:** Real-time RSI, MACD, and Bollinger Band calculations.
-* **Fundamental Health Scoring:** Automated balance sheet and income statement auditing.
-* **Volatility Tracking:** Historical and implied volatility mapping for risk management.
+* **Time-Series Data:** Hisse senedi fiyat hareketleri, yüksek hacimli zaman serisi verileri olarak PostgreSQL üzerinde optimize edilmiş indekslerle saklanır.
+* **Relational Integrity:** Kullanıcı portföyleri, takip listeleri ve finansal rasyolar arasındaki ilişkiler, **3. Normal Form (3NF)** prensiplerine sadık kalarak modellendi.
+* **Performance:** Karmaşık finansal sorgular için `Stored Procedures` ve `Views` katmanları kullanılarak API üzerindeki yük minimize edildi.
 
-### 🛡️ ENTERPRISE-GRADE SECURITY (APPLE AUTH)
+### 🔐 2. IDENTITY MANAGEMENT (SSO INTEGRATION)
 
-Integrating **Sign in with Apple** was a strategic engineering choice to ensure:
+Kurumsal güvenlik standartlarını karşılamak için **Single Sign-On (SSO)** yapısı entegre edildi:
 
-* Zero-knowledge user authentication.
-* Seamless cross-device experience (Web to Mobile).
-* High-level data privacy for proprietary portfolio tracking.
+* **Apple Auth:** iOS kullanıcıları için biyometrik güvenlikle entegre, sıfır-bilgi (zero-knowledge) gizlilik odaklı giriş katmanı.
+* **Google Auth:** Geniş kullanıcı kitlesi için standartlaştırılmış, güvenli OAuth 2.0 kimlik doğrulama akışı.
+* **JWT Security:** Başarılı giriş sonrası sistem, tüm API isteklerini doğrulamak için şifrelenmiş **JSON Web Token** (JWT) üretir.
 
-### ⚡ HIGH-PERFORMANCE DATA INGESTION
+### ☁️ 3. AWS "FULL-STACK" INFRASTRUCTURE
 
-* Custom-built scrapers and API connectors for Borsa Istanbul and global markets.
-* Optimized SQL schemas for time-series financial data storage and retrieval.
+Sistem, AWS üzerinde tamamen izole edilmiş bir **VPC (Virtual Private Cloud)** içerisinde yaşar:
+
+* **High Availability:** Sunucular farklı `Availability Zone`'larda yedekli çalışır.
+* **S3 Data Lake:** Ham borsa dataları ve loglar, ileriye dönük model eğitimi için S3 üzerinde arşivlenir.
+* **CloudWatch:** Sistemin sağlığı, API gecikmeleri ve veritabanı sorgu süreleri 7/24 izlenir.
+
+### 📱 4. MULTI-PLATFORM FRONTEND (WEB & MOBILE)
+
+* **React Native:** Tek kod tabanıyla hem iOS hem Android üzerinde çalışan, finansal grafiklerin 60 FPS akıcılıkla render edildiği mobil uygulama.
+* **Web Terminal:** Profesyonel yatırımcılar için geliştirilmiş, büyük ekranlarda detaylı teknik analiz yapılmasına olanak sağlayan web arayüzü.
 
 ---
 
-## 📂 REPOSITORY LOGIC (SHOWCASE ONLY)
+## 📂 REPOSITORY & DEPLOYMENT LOGIC
 
-**NOTICE:** This repository serves as a **Technical Showcase**. To protect the proprietary financial algorithms and "Quantum" logic, the core calculation engine is kept private.
-
-This dökümantasyon outlines the infrastructure, system design, and product vision:
+Bu repo, sistemin **Showcase** (vitrin) sürümüdür. Algoritmik sırlar ve ticari mantık özel repolarda saklanır:
 
 ```text
 .
-├── architecture/       # Detailed system design diagrams
-├── assets/             # Terminal UI screenshots and performance metrics
-├── docs/               # Research paper & Logic outlines
-├── schemas/            # Database normalization patterns (3NF)
-└── README.md           # Project overview & Technical specs
+├── aws-infra/          # CloudFormation / Terraform (Infrastructure as Code)
+├── backend-fastapi/    # RESTful API logic & PostgreSQL migrations
+├── mobile-app/         # React Native (iOS & Android) source
+├── web-dashboard/      # Terminal web interface
+├── security/           # OAuth2, Apple & Google Auth handlers
+└── README.md           # Engineering blueprint
 
 ```
 
 ---
 
-## ⚙️ ENGINEERING PRINCIPLES
-
-1. **DATA INTEGRITY:** Multi-stage validation for incoming financial feeds to prevent outlier-driven false signals.
-2. **LATENCY OPTIMIZATION:** Asynchronous API calls and indexed database queries for sub-second terminal updates.
-3. **SCALABILITY:** Containerized services ready for AWS/Cloud deployment to handle increasing concurrent user loads.
-
----
-
-## 🧪 THE "QUANTUM" APPROACH
-
-Unlike standard charting tools, **Quantum Analiz** treats the market as a high-dimensional signal processing problem. By focusing on **Volume-Price Analysis** and **Trend Exhaustion** metrics, the platform provides a systematic edge in identifying market reversals.
-
----
-
-## 👨‍💻 DEVELOPER & VISIONARY
+## 👨‍💻 DEVELOPER & SYSTEM ARCHITECT
 
 **Ferhat Koç**
 
-*Data Engineer & Quant Analytics Developer*
+*Data Engineer & Quant Developer*
 
-[quantumanaliz.com]() | [GitHub]()
+GitHub: [ferhattkoc-ml]()
+
+Web: [quantumanaliz.com]()
 
 ---
 
