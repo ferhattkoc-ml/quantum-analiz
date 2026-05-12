@@ -12,7 +12,7 @@ Quantum Analiz is built on a decoupled architecture optimized for low-latency da
 ```mermaid
 graph TD
     A[📡 Real-Time Data Ingestion] --> B[⚙️ Processing Engine]
-    B --> C[(🗄️ MySQL Data Warehouse)]
+    B --> C[(🗄️ PostegroSQL Data Warehouse)]
     B --> D[🧠 Quant Analytical Layer]
     C --> E[⚡ FastAPI Backend]
     D --> E
