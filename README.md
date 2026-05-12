@@ -108,7 +108,7 @@ Bu repo, sistemin **Showcase** (vitrin) sürümüdür. Algoritmik sırlar ve tic
 
 GitHub: [ferhattkoc-ml]()
 
-Web: [quantumanaliz.com]()
+Web: https://www.quantumanaliz.com
 
 ---
 
