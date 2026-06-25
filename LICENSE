@@ -1,0 +1,31 @@
+Quantum Analytics Showcase License (QASL) v1.0
+
+Copyright (c) 2026 Ferhat Koç
+
+All rights reserved.
+
+This repository is published exclusively as a technical showcase and portfolio project.
+
+You are permitted to:
+
+* View the source code.
+* Clone the repository for personal evaluation.
+* Study the architecture and implementation.
+* Reference the project for educational purposes.
+
+You may NOT, without prior written permission:
+
+* Copy substantial portions of the source code into another project.
+* Use this software in any commercial product or service.
+* Redistribute modified versions.
+* Remove or alter copyright notices.
+* Create derivative commercial works based on this repository.
+
+This repository intentionally excludes proprietary production components, business logic, datasets, AI prompts, infrastructure configuration, credentials, and other confidential assets.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND.
+
+For licensing inquiries or commercial use, please contact:
+
+Ferhat Koç
+ferhatkoc154@gmail.com
