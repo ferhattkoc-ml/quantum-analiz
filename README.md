@@ -28,7 +28,7 @@ Modern financial analysis requires bridging the gap between high-velocity techni
 
 The system is designed with a decoupled, modular architecture to scale components independently. A full architectural breakdown and asset layout can be seen in the following system diagram:
 
-![System Architecture](assets/01-system-overview.png.png)
+![System Architecture](assets/01-system-overview.png)
 
 The architectural blueprint consists of four primary layers:
 *   **API Layer**: Handles routing, request validation, rate limiting, and client telemetry.
@@ -72,7 +72,7 @@ The `AdvancedTechnicalEngine` maps raw quantitative values (RSI, Bollinger Bands
 
 *   **Clean Architecture**: Enforces boundary separation between domain logic, data persistence, and interface endpoints.
 *   **Modularity**: Every engine exists as a standalone module to ensure code readability and single-responsibility principles.
-*   **Test-Driven Design**: Ensures 100% test coverage on mathematical scoring engines to guarantee precision.
+*   **Test-Driven Design**: Scoring and signal logic is covered by an automated test suite (`pytest tests`); coverage is not claimed as a percentage.
 *   **Performance-First Design**: Optimized data structures and vectorized operations over iterative loops to lower CPU footprints.
 *   **Type Safety**: Enforced type hints (`typing` module) across the codebase for structural safety and IDE diagnostics.
 
@@ -87,9 +87,9 @@ quantumanaliz/
 ├── requirements.txt        # Showcase dependencies
 ├── showcase_app.py         # Simulation entry point
 ├── assets/                 # Architecture diagrams
-│   ├── 01-system-overview.png.png
-│   ├── 03-ai-pipeline.png.png
-│   └── 06-database-er.png.png
+│   ├── 01-system-overview.png
+│   ├── 03-ai-pipeline.png
+│   └── 06-database-er.png
 ├── core/                   # Analytical engine core modules
 │   ├── __init__.py
 │   ├── engine.py           # Signal Cross Logic
